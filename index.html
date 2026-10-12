@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VB-FUNGAME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <button class="brand" id="brand-btn" type="button" data-i18n-aria="nav.home">
+      <span class="brand__mark">VB</span>
+      <span class="brand__text">FUNGAME</span>
+    </button>
+
+    <ol class="stepper" id="stepper">
+      <li data-step="home"><span class="stepper__num">1</span><span class="stepper__label" data-i18n="step.home">Sesi</span></li>
+      <li data-step="players"><span class="stepper__num">2</span><span class="stepper__label" data-i18n="step.players">Pemain</span></li>
+      <li data-step="teams"><span class="stepper__num">3</span><span class="stepper__label" data-i18n="step.teams">Tim</span></li>
+      <li data-step="pockets"><span class="stepper__num">4</span><span class="stepper__label" data-i18n="step.pockets">Kantong</span></li>
+      <li data-step="shuffle"><span class="stepper__num">5</span><span class="stepper__label" data-i18n="step.shuffle">Acak</span></li>
+      <li data-step="fungame"><span class="stepper__num">6</span><span class="stepper__label" data-i18n="step.fungame">Fungame</span></li>
+    </ol>
+
+    <div class="lang" id="lang-switch" role="radiogroup" aria-label="Language">
+      <button type="button" data-lang="id" role="radio" aria-checked="true">ID</button>
+      <button type="button" data-lang="en" role="radio" aria-checked="false">EN</button>
+    </div>
+  </header>
+
+  <main id="app">
+
+    <!-- ========== 1. HOME ========== -->
+    <section class="screen" id="screen-home">
+      <div class="hero">
+        <p class="hero__kicker" data-i18n="home.kicker">VOLLEYBALL SESSION MANAGER</p>
+        <h1 class="hero__title" data-i18n-html="home.title">Atur Sesi,<br /><span>Acak Tim,</span><br />Hitung Poin.</h1>
+      </div>
+
+      <div class="resume-bar" id="resume-bar" hidden>
+        <span id="resume-text"></span>
+        <div class="head-actions">
+          <button class="btn btn--primary" type="button" id="btn-resume" data-i18n="home.resume">Lanjutkan Sesi</button>
+          <button class="btn btn--ghost" type="button" id="btn-discard" data-i18n="home.discard">Hapus</button>
+        </div>
+      </div>
+
+      <div class="session-form card">
+        <div class="field">
+          <label for="session-title" data-i18n="home.sessionTitle">Judul Sesi</label>
+          <input id="session-title" type="text" maxlength="48" data-i18n-placeholder="home.sessionTitlePh" placeholder="Contoh: Fun Games Malam Jumat" />
+        </div>
+        <div class="field">
+          <label for="session-community" data-i18n="home.community">Nama Komunitas</label>
+          <input id="session-community" type="text" maxlength="48" data-i18n-placeholder="home.communityPh" placeholder="Contoh: Lavani Volleyball Club" />
+        </div>
+      </div>
+
+      <p class="section-label" data-i18n="home.pickMode">PILIH JUMLAH PEMAIN</p>
+      <div class="mode-grid">
+        <button class="mode-card" type="button" data-mode="18">
+          <span class="mode-card__num">18</span>
+          <span class="mode-card__label" data-i18n="home.players">Pemain</span>
+          <span class="mode-card__meta" data-i18n="home.meta18">3 Tim × 6 Pemain</span>
+        </button>
+        <button class="mode-card" type="button" data-mode="24">
+          <span class="mode-card__num">24</span>
+          <span class="mode-card__label" data-i18n="home.players">Pemain</span>
+          <span class="mode-card__meta" data-i18n="home.meta24">4 Tim × 6 Pemain</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== 2. PLAYERS ========== -->
+    <section class="screen" id="screen-players" hidden>
+      <div class="screen__head">
+        <div>
+          <p class="kicker" data-i18n="players.kicker">LANGKAH 2</p>
+          <h2 data-i18n="players.title">Daftar Pemain</h2>
+          <p class="muted" id="players-sub"></p>
+        </div>
+        <div class="head-actions">
+          <button class="btn btn--ghost" type="button" id="btn-fill-sample" data-i18n="players.fillSample">Isi Contoh</button>
+          <button class="btn btn--ghost" type="button" id="btn-clear-players" data-i18n="players.clear">Kosongkan</button>
+        </div>
+      </div>
+      <div class="players-grid" id="players-grid"></div>
+      <div class="screen__foot">
+        <button class="btn btn--ghost" type="button" data-goto="home" data-i18n="nav.back">← Kembali</button>
+        <button class="btn btn--primary" type="button" id="btn-players-next" data-i18n="players.next">Lanjut: Tim →</button>
+      </div>
+    </section>
+
+    <!-- ========== 3. TEAMS ========== -->
+    <section class="screen" id="screen-teams" hidden>
+      <div class="screen__head">
+        <div>
+          <p class="kicker" data-i18n="teams.kicker">LANGKAH 3</p>
+          <h2 data-i18n="teams.title">Nama &amp; Warna Tim</h2>
+          <p class="muted" data-i18n="teams.sub">Beri identitas tiap tim. Klik warna untuk mengganti jersey.</p>
+        </div>
+      </div>
+      <div class="teams-grid" id="teams-grid"></div>
+      <div class="screen__foot">
+        <button class="btn btn--ghost" type="button" data-goto="players" data-i18n="nav.back">← Kembali</button>
+        <button class="btn btn--primary" type="button" id="btn-teams-next" data-i18n="teams.next">Lanjut: Kantong →</button>
+      </div>
+    </section>
+
+    <!-- ========== 4. POCKETS ========== -->
+    <section class="screen" id="screen-pockets" hidden>
+      <div class="screen__head">
+        <div>
+          <p class="kicker" data-i18n="pockets.kicker">LANGKAH 4</p>
+          <h2 data-i18n="pockets.title">Penentuan Kantong</h2>
+          <p class="muted" id="pockets-sub"></p>
+        </div>
+        <div class="head-actions">
+          <button class="btn btn--ghost" type="button" id="btn-autofill" data-i18n="pockets.autofill">⚡ Auto Isi Sisa</button>
+          <button class="btn btn--ghost" type="button" id="btn-reset-pockets" data-i18n="pockets.reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="pockets-layout">
+        <aside class="pocket-tabs" id="pocket-tabs" role="tablist"></aside>
+        <div class="pocket-panel card">
+          <div class="pocket-panel__head">
+            <h3 id="active-pocket-title"></h3>
+            <span class="pill" id="active-pocket-count">0 / 0</span>
+          </div>
+          <p class="muted small" data-i18n="pockets.memberHint">Klik nama untuk menghapus dari kantong.</p>
+          <div class="chips chips--members" id="pocket-members" data-i18n-attr="data-empty:pockets.empty"></div>
+
+          <div class="pool">
+            <div class="pool__head">
+              <h4 data-i18n="pockets.pool">Pemain Belum Ditempatkan</h4>
+              <span class="pill pill--soft" id="pool-count">0</span>
+            </div>
+            <p class="muted small" data-i18n="pockets.poolHint">Klik nama untuk memasukkan ke kantong aktif.</p>
+            <div class="chips" id="pool-chips" data-i18n-attr="data-empty:pockets.poolEmpty"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen__foot">
+        <button class="btn btn--ghost" type="button" data-goto="teams" data-i18n="nav.back">← Kembali</button>
+        <button class="btn btn--primary" type="button" id="btn-pockets-next" data-i18n="pockets.next">Lanjut: Acak Tim →</button>
+      </div>
+    </section>
+
+    <!-- ========== 5. SHUFFLE ========== -->
+    <section class="screen" id="screen-shuffle" hidden>
+      <div class="screen__head">
+        <div>
+          <p class="kicker" data-i18n="shuffle.kicker">LANGKAH 5</p>
+          <h2 id="shuffle-title"></h2>
+          <p class="muted" id="shuffle-status"></p>
+        </div>
+      </div>
+
+      <div class="shuffle-pockets" id="shuffle-pockets"></div>
+      <div class="result-grid" id="result-grid"></div>
+
+      <div class="screen__foot">
+        <button class="btn btn--ghost" type="button" id="btn-shuffle-back" data-goto="pockets" data-i18n="nav.back">← Kembali</button>
+        <div class="head-actions">
+          <button class="btn btn--ghost" type="button" id="btn-new-session" hidden data-i18n="nav.newSession">Sesi Baru</button>
+          <button class="btn btn--ghost" type="button" id="btn-start-shuffle"></button>
+          <button class="btn btn--primary btn--big" type="button" id="btn-to-fungame" hidden data-i18n="shuffle.toFungame">Mulai FUNGAME →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 6. FUNGAME ========== -->
+    <section class="screen" id="screen-fungame" hidden>
+      <div class="screen__head">
+        <div>
+          <p class="kicker" id="fungame-kicker"></p>
+          <h2 id="fungame-title"></h2>
+          <p class="muted" id="fungame-sub"></p>
+        </div>
+        <div class="head-actions">
+          <div class="segmented" id="set-format" role="radiogroup">
+            <button type="button" data-sets="1" role="radio" data-i18n="fungame.set1">1 Set</button>
+            <button type="button" data-sets="3" role="radio" data-i18n="fungame.set3">Best of 3</button>
+            <button type="button" data-sets="5" role="radio" data-i18n="fungame.set5">Best of 5</button>
+          </div>
+          <button class="btn btn--ghost" type="button" id="btn-reset-scores" data-i18n="fungame.resetScores">Reset Skor</button>
+        </div>
+      </div>
+
+      <!-- Hasil akhir -->
+      <div class="final" id="final" hidden>
+        <div class="final__banner">
+          <p class="final__kicker" data-i18n="final.kicker">HASIL AKHIR</p>
+          <h3 class="final__session" id="final-session"></h3>
+          <p class="final__community" id="final-community"></p>
+          <p class="final__meta" id="final-meta"></p>
+        </div>
+        <div class="podium" id="podium"></div>
+      </div>
+
+      <div class="pending-bar" id="pending-bar" hidden></div>
+      <div class="standings card" id="standings"></div>
+      <p class="muted small rules-note" id="rules-note"></p>
+
+      <div class="matches-head" id="matches-head">
+        <p class="section-label" data-i18n="fungame.matches">JADWAL LAGA</p>
+        <button class="btn btn--ghost btn--sm" type="button" id="btn-toggle-matches" hidden></button>
+      </div>
+      <div class="bracket" id="bracket"></div>
+
+      <div class="screen__foot">
+        <button class="btn btn--ghost" type="button" data-goto="shuffle" data-i18n="fungame.viewTeams">← Lihat Komposisi Tim</button>
+        <button class="btn btn--ghost" type="button" id="btn-fungame-new" data-i18n="nav.newSession">Sesi Baru</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>VB-FUNGAME</span> · <span data-i18n="footer.tag">Volleyball Session Manager</span>
+  </footer>
+
+  <div class="toast" id="toast" role="alert" aria-live="assertive" hidden>
+    <span class="toast__tag" id="toast-tag"></span>
+    <span class="toast__msg" id="toast-msg"></span>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
